@@ -18,25 +18,33 @@ export const goodsFromServer = [
 export const App = () => {
   const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
 
+  const [resetList, setResetList] = useState(false);
+
   const sortByAlphabetically = () => {
     const sortedList = [...visibleGoods].sort((a, b) => a.localeCompare(b));
 
     setVisibleGoods(sortedList);
+    setResetList(true);
   };
 
   const sortByLength = () => {
     const sortedLength = [...visibleGoods].sort((a, b) => a.length - b.length);
 
     setVisibleGoods(sortedLength);
+    setResetList(true);
   };
 
   const sortByReverse = () => {
     const sortedReverse = [...visibleGoods].reverse();
 
     setVisibleGoods(sortedReverse);
+    setResetList(true);
   };
 
-  const resetList = () => setVisibleGoods(goodsFromServer);
+  const handleReset = () => {
+    setVisibleGoods(goodsFromServer);
+    setResetList(false);
+  };
 
   return (
     <div className="section content">
@@ -65,13 +73,15 @@ export const App = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={resetList}
-        >
-          Reset
-        </button>
+        {resetList && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
